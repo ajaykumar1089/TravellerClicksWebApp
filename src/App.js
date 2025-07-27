@@ -28,7 +28,6 @@ import React from "react";
 // import classes from "./home.module.css";
 // import About from "../about/About";
 
-import TopViewBeachImage from "./assets/hero.png";
 import background from "./assets/background.jpg"; // Replace with your image URL
 
 const Home = () => {
