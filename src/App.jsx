@@ -69,7 +69,7 @@ const Home = () => {
   return (
     <div>
       <header>
-        <header style={styles.header}>Welcome to Traveller Clicks</header>
+        <header style={styles.header}>Welcome to Traveller Clicks jsx</header>
       </header>
       <main>
 
