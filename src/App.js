@@ -1,34 +1,7 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-import React from "react";
-// import classes from "./home.module.css";
-// import About from "../about/About";
-
+import './App.css';
+import React, { useState, useEffect, useRef } from "react";
 import background from "./assets/background.jpg"; // Replace with your image URL
+import logo from "./assets/logo_travellerclicks - Copy.png";
 
 const Home = () => {
   const styles = {
@@ -38,15 +11,9 @@ const Home = () => {
       margin: "0",
       backgroundColor: "lightgray",
     },
-    header: {
-      backgroundColor: "#2c3e50",
-      color: "#fff",
-      padding: "20px 0",
-      textAlign: "center",
-      fontSize: "2rem",
-    },
     hero: {
       backgroundImage: `url(${background})`, // Replace with your image URL
+      logo: `url(${logo})`,
       height: "600px",
       backgroundSize: "cover",
       backgroundPosition: "center",
@@ -79,9 +46,7 @@ const Home = () => {
       height: "200px",
       objectFit: "cover",
     },
-    cardContent: {
-      padding: "20px",
-    },
+
     button: {
       backgroundColor: "#3498db",
       color: "white",
@@ -91,17 +56,281 @@ const Home = () => {
       cursor: "pointer",
     },
   };
+
+
+
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add event listener to handle clicks outside the dropdown
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleMenu = () => {
+    document.getElementById("sideMenu").classList.toggle("active");
+  };
+
+
+   const slide = () => {   
+ 
+let currentIndex = 0;
+    const slider = document.getElementById('slider');
+    const slides = document.querySelectorAll('.slide');
+
+    function moveSlide(step) {
+      currentIndex = (currentIndex + step + slides.length) % slides.length;
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    let sliderUser = document.getElementById('sliderUser');
+    let currentIndexUser = 0;
+
+    function slide(direction) {
+      const boxWidth = 150; // user-box width
+      const totalBoxes = sliderUser.children.length;
+      const visibleBoxes = Math.floor(document.querySelector('.slider-containerUser').offsetWidth / boxWidth);
+
+      currentIndexUser += direction;
+
+      if (currentIndexUser < 0) currentIndexUser = 0;
+      if (currentIndexUser > totalBoxes - visibleBoxes) currentIndexUser = totalBoxes - visibleBoxes;
+      sliderUser.style.transform = `translateX(-${currentIndexUser * boxWidth}px)`;
+    }
+ };
+  
+
   return (
     <div>
+      <div class="menu-toggle" onClick={toggleMenu}>☰</div>
+      <div id="sideMenu" className="side-menu">
+        <a href="#">🏠 Home</a>
+        <a href="#">🌍 Destinations</a>
+        <a href="#">🚗 Car Rentals</a>
+        <a href="#">🛏 Hotels</a>
+        <a href="#">🗺 Tourist Maps</a>
+        <a href="#">🎫 Tickets</a>
+        <a href="#">📞 Contact Us</a>
+      </div>
       <header>
-        <header style={styles.header}>Welcome to Traveller Clicks</header>
+        <div>
+          <a href="index.html">  <img src={require('./assets/logo_travellerclicks - Copy.png')} width="85" alt="logo" /></a>
+        </div>
+        <div>
+          <input type="text" placeholder="Search destinations, hotels..." />
+        </div>
+        <div className='nav-buttons' >
+          <a href="TravellesrGroupListings.html">Join Travellers Group</a>
+          <a href="#">Plan My Full Trip</a>
+          <a href="Stories.html">Stories</a>
+          <a href="DigitalNomadsDestinationsListings.html">Digital Nomads</a>
+          <a href="#">Login</a>
+        </div>
       </header>
       <main>
+        <div className="main-content container">
+          <div className="booking-form">
+            <div className="places">
+              <div className="place-card">
+                {/* <!-- CamperVan icon animated traveller in  <i  element html --> */}
+                <i className="fas fa-shuttle-van campervan-icon"></i>
 
-        {/* <p>Book comfortable rides, explore new destinations, and enjoy hassle-free travel with Traveller Clicks. Your journey starts with just one click!</p> */}
-        {/* <img src={TopViewBeachImage} alt="" height={410} width={1328} /> */}
+                <h3>Camper Van</h3>
+              </div>
+
+              <div className="place-card">
+                <i className="fas fa-hotel"></i>
+                <h3>Hotels & Home Stays</h3>
+              </div>
+              <div className="place-card">
+                <i className="fas fa-car"></i>
+                <h3>Rented Cars</h3>
+              </div>
+              <div className="place-card">
+                <i className="fas fa-motorcycle"></i>
+                <h3>Scooty</h3>
+              </div>
+
+              <div className="place-card">
+                {/* <!-- Tourist Guide Icon --> */}
+                <i className="fas fa-user-tie guide-icon" title="Hire Tourist Guide"></i>
+                <h3>Hire Trip Coach</h3>
+              </div>
+
+              <div className="place-card">
+                <i className="fas fa-person traveller-icon">
+                  <i className="fas fa-camera camera-bag"></i>
+                </i>
+                <h3>Hire Photographer</h3>
+              </div>
+              <div className="place-card">
+                <i className="fas fa-ship"></i>
+                <h3>Boat & Ferries</h3>
+              </div>
+
+              <div className="place-card">
+                <i className="fas fa-ticket-alt"></i>
+                <h3>Tickets & Events</h3>
+              </div>
+
+              <div className="place-card">
+                <i className="fas fa-money-bill-wave"></i>
+                <i className="fas fa-right-left"></i>
+                <h3>Forex Exchange</h3>
+              </div>
+              <div className="place-card">
+                <i className="fas fa-map-marked-alt"></i>
+                <h3>Tourist Map</h3>
+              </div>
+
+
+            </div>
+            <div className="booking-form">
+              <div className="places">
+                <div className="trip-type">
+                  <label><input type="radio" name="tripType" value="oneway" checked /> One Way</label>
+                  <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
+                </div>
+                <div className="form-group">
+                  <label for="from">From Location</label>
+                  <input type="text" id="from" name="from" placeholder="City or Airport" />
+                </div>
+                <div className="form-group">
+                  <label for="to">To Location</label>
+                  <input type="text" id="to" name="to" placeholder="City or Airport" />
+                </div>
+                <div className="form-group">
+                  <label for="departure">Departure Date</label>
+                  <input type="date" id="departure" name="departure" />
+                </div>
+                <div className="form-group" id="returnDateGroup">
+                  <label for="return">Return Date</label>
+                  <input type="date" id="return" name="return" />
+                </div>
+                <div className="form-group">
+                  <label for="travellers">Travellers</label>
+                  <input type="number" id="travellers" name="travellers" min="1" value="1" />
+                </div>
+                <button className="submit-btn">Search</button>
+              </div>
+            </div>
+          </div>
+
+          <h2 >Top Rated Tourist Attractions, Home Stays, Traveller Groups, Best Local Cuisines, Route Map@destinationcity </h2>
+
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.3738026319794!2d144.95743221570534!3d-37.816382979751504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf5772c6335123bc1!2sFederation+Square!5e0!3m2!1sen!2sau!4v1510919093301"
+            allowfullscreen>
+          </iframe>
+
+          <h2 >Online Profiles Around the World</h2>
+          <div className="slider-containerUser">
+            <button className="arrowUser left" onClick={slide(-1)}>&#10094;</button>
+            <div className="sliderUser" id="sliderUser">
+
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Carlos Martinez/" />
+                  <div className="profile-name">Carlos Martinez</div>
+                  <div className="profile-location">Madrid, Spain<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="user-box">
+                <div className="user-img" >
+
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/women/12.jpg" alt="Aiko Tanaka" />
+                  <div className="profile-name">Aiko Tanaka</div>
+                  <div className="profile-location">Tokyo, Japan<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Carlos Martinez" />
+                  <div className="profile-name">Carlos Martinez</div>
+                  <div className="profile-location">Madrid, Spain<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Carlos Martinez" />
+                  <div className="profile-name">Carlos Martinez</div>
+                  <div className="profile-location">Madrid, Spain<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/women/45.jpg" alt="Jane Smith" />
+                  <div className="profile-name">Jane Smith</div>
+                  <div className="profile-location">London, UK<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" />
+                  <div className="profile-name">John Doe</div>
+                  <div className="profile-location">New York, USA<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Carlos Martinez" />
+                  <div className="profile-name">Carlos Martinez</div>
+                  <div className="profile-location">Madrid, Spain<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Carlos Martinez" />
+                  <div className="profile-name">Carlos Martinez</div>
+                  <div className="profile-location">Madrid, Spain<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Doe" />
+                  <div className="profile-name">John Doe</div>
+                  <div className="profile-location">New York, USA<div className="nav-buttons"><a> View Story</a></div>
+                  </div>
+                </div>
+              </div>
+              <div className="user-box">
+                <div className="user-img" >
+                  <img className="profile-img" src="https://randomuser.me/api/portraits/men/65.jpg" alt="Carlos Martinez" />
+                  <div className="profile-name">Carlos Martinez</div>
+                  <div className="profile-location">Madrid, Spain<nav>
+                    <div className="nav-buttons"><a> View Story</a></div>
+                  </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button className="arrowUser right" onclick="slide(1)">&#10095;</button>
+          </div>
+        </div>
         <div style={styles.container}>
-          <div style={styles.hero}></div>          
+          <div style={styles.hero}></div>
           <section style={styles.section}>
             <h2>Popular Destinations in India</h2>
             <div style={styles.cardContainer}>
@@ -109,7 +338,7 @@ const Home = () => {
                 <div key={index} style={styles.card}>
                   <img src={require('./assets/' + item.image + '.jpg')}
                     style={styles.cardImage} alt={item.title} height={430} width={1330} />
-                  <div style={styles.cardContent}>
+                  <div className='cardContent'>
                     <h3>{item.image}</h3>
                     <p>Discover the best places in {item.image} for your next adventure.</p>
                     <button style={styles.button}>Book Now</button>
@@ -121,7 +350,9 @@ const Home = () => {
         </div>
       </main>
     </div>
+
   );
+
 }
 
 const myArray = [
@@ -140,7 +371,7 @@ const myArray = [
     title: 'Admin',
     image: 'odisha',
   },
-    {
+  {
     number: 4,
     title: 'Admin',
     image: 'bihar',
